@@ -3,10 +3,10 @@ package com.tjoris.sudoku
 class Solution(private val values: List<Short>) {
 
     fun print(conversion: Conversion) {
-        val length = Math.sqrt(values.size.toDouble()).toInt()
+        val length = Math.sqrt(this.values.size.toDouble()).toInt()
         val size = Math.sqrt(length.toDouble()).toInt()
         printSeparator(size)
-        values.forEachIndexed { i, value ->
+        this.values.forEachIndexed { i, value ->
             if (i % size == 0) {
                 print('|')
             }
@@ -24,9 +24,9 @@ class Solution(private val values: List<Short>) {
     }
 
     private fun printSeparator(size: Int) {
-        for (i in 0..size - 1) {
+        for (i in 0 until size) {
             print('+')
-            for (j in 0..size - 1) {
+            for (j in 0 until size) {
                 print('-')
             }
         }

@@ -1,11 +1,9 @@
 package com.tjoris.sudoku
 
-import java.io.IOException
-
 class Conversion(private val startValue: Short, private val maxValue: Int) {
 
     fun parse(ch: Char): Short {
-        var value: Short = 0
+        var value: Short
         if (ch in '0'..'9') {
             value = (ch - '0').toShort()
         } else if (ch in 'A'..'Z') {
@@ -27,11 +25,7 @@ class Conversion(private val startValue: Short, private val maxValue: Int) {
         if (value < 0) {
             return ' '
         }
-        var ch = value + this.startValue
-        if (ch < 10) {
-            return ('0' + ch).toChar()
-        } else {
-            return ('A' + ch - 10).toChar()
-        }
+        val ch = value + this.startValue
+        return if (ch < 10) '0' + ch else 'A' + ch - 1
     }
 }

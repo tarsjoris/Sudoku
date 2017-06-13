@@ -64,9 +64,9 @@ class Field(private val length: Int) {
     }
 
     private fun printSeparator(size: Int) {
-        for (i in 0..size - 1) {
+        for (i in 0 until size) {
             print('+')
-            for (j in 0..size - 1) {
+            for (j in 0 until size) {
                 print('-')
             }
         }
