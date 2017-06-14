@@ -21,11 +21,12 @@ class Conversion(private val startValue: Short, private val maxValue: Int) {
         return value
     }
 
-    fun serialize(value: Short): Char {
-        if (value < 0) {
+    fun serialize(cell: Cell): Char {
+        if (cell.isEmpty()) {
             return ' '
+        } else {
+            val ch = cell.value + this.startValue
+            return if (ch < 10) '0' + ch else 'A' + ch - 1
         }
-        val ch = value + this.startValue
-        return if (ch < 10) '0' + ch else 'A' + ch - 1
     }
 }

@@ -1,49 +1,15 @@
 package com.tjoris.sudoku
 
-import java.util.ArrayList
+open class Field(private val length: Int, private val conversion : Conversion) {
+    protected val cells = Array(length * length) { Cell() }
 
-class Field(private val length: Int) {
-    private val zones = Array(3 * length) { Zone() }
-    private val cells = Array(length * length) { Cell() }
-
-    fun addCellToZone(cellIndex: Int, zoneIndex: Int) {
-        val cell = this.cells[cellIndex]
-        val zone = this.zones[zoneIndex]
-        zone.addCell(cell)
-        cell.addZone(zone)
-    }
-
-    fun setValue(cellIndex: Int, value: Short) {
-        this.cells[cellIndex].value = value
-    }
-
-    fun solve(conversion: Conversion): Array<Solution> {
-        val solutions = ArrayList<Solution>()
-        tryCell(conversion, 0, solutions)
-        return solutions.toTypedArray()
-    }
-
-    private fun tryCell(conversion: Conversion, index: Int, solutions: MutableList<Solution>) {
-        //print(conversion)
-        if (index == this.cells.size) {
-            val values = this.cells.map { cell -> cell.value }
-            solutions.add(Solution(values))
-        } else {
-            val cell = this.cells[index]
-            if (cell.value.toInt() != -1) {
-                tryCell(conversion, index + 1, solutions)
-            } else {
-                for (i in 0 until this.length) {
-                    if (cell.tryValue(i.toShort())) {
-                        tryCell(conversion, index + 1, solutions)
-                    }
-                }
-                cell.clearValue()
-            }
+    constructor(field : Field) : this(field.length, field.conversion){
+        this.cells.forEachIndexed { i, cell ->
+            cell.value = field.cells[i].value
         }
     }
 
-    fun print(conversion: Conversion) {
+    fun print() {
         val size = Math.sqrt(this.length.toDouble()).toInt()
         printSeparator(size)
         this.cells.forEachIndexed { i, cell ->
@@ -57,7 +23,7 @@ class Field(private val length: Int) {
                 }
                 print('|')
             }
-            print(conversion.serialize(cell.value))
+            print(this.conversion.serialize(cell))
         }
         println('|')
         printSeparator(size)

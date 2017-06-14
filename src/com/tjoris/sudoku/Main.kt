@@ -19,11 +19,11 @@ fun main(args: Array<String>) {
             val startValue = Integer.parseInt(reader.readLine())
             val conversion = Conversion(startValue.toShort(), length)
             val field = readField(size, conversion, reader)
-            val solutions = field.solve(conversion)
+            val solutions = field.solve()
             if (solutions.isEmpty()) {
                 println("No solutions")
             } else {
-                solutions.forEach { it.print(conversion) }
+                solutions.forEach { it.print() }
             }
         }
     } catch (e: Exception) {
@@ -31,9 +31,9 @@ fun main(args: Array<String>) {
     }
 }
 
-fun readField(size: Int, conversion: Conversion, reader: BufferedReader): Field {
+fun readField(size: Int, conversion: Conversion, reader: BufferedReader): FieldWithZones {
     val length = size * size
-    val field = Field(length)
+    val field = FieldWithZones(length, conversion)
     var line = reader.readLine()
     if (line == "normal") {
         // normal 2-d sudoku's
