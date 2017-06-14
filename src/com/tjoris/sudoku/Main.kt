@@ -13,26 +13,26 @@ fun main(args: Array<String>) {
         }
         val file = File(args[0])
         println("Reading file: ${file.absolutePath}")
-        BufferedReader(InputStreamReader(FileInputStream(file))).use { reader ->
-            val size = Integer.parseInt(reader.readLine())
-            val length = size * size
-            val startValue = Integer.parseInt(reader.readLine())
-            val conversion = Conversion(startValue.toShort(), length)
-            val field = readField(size, conversion, reader)
-            val solutions = field.solve()
-            if (solutions.isEmpty()) {
-                println("No solutions")
-            } else {
-                solutions.forEach { it.print() }
-            }
+        val field = BufferedReader(InputStreamReader(FileInputStream(file))).use(::readField)
+
+        val solutions = field.solve()
+
+        if (solutions.isEmpty()) {
+            println("No solutions")
+        } else {
+            solutions.forEach { it.print() }
         }
     } catch (e: Exception) {
         e.printStackTrace(System.out)
     }
 }
 
-fun readField(size: Int, conversion: Conversion, reader: BufferedReader): FieldWithZones {
+fun readField(reader: BufferedReader): FieldWithZones {
+    val size = Integer.parseInt(reader.readLine())
     val length = size * size
+    val startValue = Integer.parseInt(reader.readLine())
+    val conversion = Conversion(startValue.toShort(), length)
+
     val field = FieldWithZones(length, conversion)
     var line = reader.readLine()
     if (line == "normal") {
